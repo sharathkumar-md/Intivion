@@ -558,5 +558,8 @@ def generate_dataset():
     log.info("All sanity checks passed ✓")
 
 
+# Alias so either name works regardless of cached .pyc versions
+main = generate_dataset
+
 if __name__ == "__main__":
     generate_dataset()
