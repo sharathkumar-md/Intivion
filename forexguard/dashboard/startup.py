@@ -25,18 +25,18 @@ def ensure_data():
 
     # ── Step 1: Generate data ─────────────────────────────────────────────────
     with st.spinner("Generating synthetic dataset..."):
-        import importlib as _il, traceback as _tb
+        import traceback as _tb
         try:
+            import importlib as _il
             _gmod = _il.import_module("forexguard.data.generate")
-            _avail = sorted(k for k in vars(_gmod) if not k.startswith("_"))
-            st.write("generate.py loaded. Names:", _avail)
+            _fn = getattr(_gmod, "generate_dataset", None) or getattr(_gmod, "main", None)
+            if _fn is None:
+                st.error("No generate function found.")
+                st.stop()
+            _fn()
         except Exception as _e:
-            st.error(f"Module load failed: {_e}\n\n```\n{_tb.format_exc()}\n```")
+            st.error(f"Data generation failed: {_e}\n\n```\n{_tb.format_exc()}\n```")
             st.stop()
-        if not hasattr(_gmod, "generate_dataset"):
-            st.error(f"'generate_dataset' not in module. Available: {_avail}")
-            st.stop()
-        _gmod.generate_dataset()
 
     events_df = pd.read_parquet(_RAW_DIR / "events.parquet")
 

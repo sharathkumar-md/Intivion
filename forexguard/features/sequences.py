@@ -11,25 +11,13 @@ inference time — I pickle it alongside the model weights.
 """
 
 import logging
-import sys
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-_sh = logging.StreamHandler(sys.stdout)
-_sh.stream.reconfigure(encoding="utf-8", errors="replace")
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[
-        _sh,
-        logging.FileHandler(Path(__file__).parent.parent / "features.log", mode="a", encoding="utf-8"),
-    ],
-)
-log = logging.getLogger("forexguard.features.sequences")
+from forexguard.log_utils import setup_logger
+log = setup_logger("forexguard.features.sequences", "forexguard_features.log")
 
 # Event types → integer index for one-hot-style encoding
 EVENT_TYPE_MAP = {

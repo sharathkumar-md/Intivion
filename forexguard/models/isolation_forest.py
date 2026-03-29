@@ -17,7 +17,6 @@ AUROC came out at 0.9554 which is pretty solid for a pure unsupervised setup.
 
 import logging
 import pickle
-import sys
 from pathlib import Path
 
 import numpy as np
@@ -26,24 +25,8 @@ import shap
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler(
-            Path(__file__).parent.parent / "models.log",
-            mode="a",
-            encoding="utf-8",
-        ),
-    ],
-)
-_sh = logging.root.handlers[0]
-if hasattr(_sh, "stream"):
-    _sh.stream.reconfigure(encoding="utf-8", errors="replace")
-
-log = logging.getLogger("forexguard.models.isolation_forest")
+from forexguard.log_utils import setup_logger
+log = setup_logger("forexguard.models.isolation_forest", "forexguard_models.log")
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Constants

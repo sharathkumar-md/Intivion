@@ -10,22 +10,13 @@ Each block is its own function so I can debug/swap them independently.
 """
 
 import logging
-import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler(Path(__file__).parent.parent / "features.log", mode="w", encoding="utf-8"),
-    ],
-)
-log = logging.getLogger("forexguard.features.tabular")
+from forexguard.log_utils import setup_logger
+log = setup_logger("forexguard.features.tabular", "forexguard_features.log", mode="w")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
