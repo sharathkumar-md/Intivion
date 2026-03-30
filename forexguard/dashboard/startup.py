@@ -1,5 +1,6 @@
 # Runs the pipeline on first launch if pre-computed data doesn't exist.
 # Runs inline (not subprocess) so errors surface in Streamlit logs.
+# v2 — cache bust
 
 import sys
 from pathlib import Path
