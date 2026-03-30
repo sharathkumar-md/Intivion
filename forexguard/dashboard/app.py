@@ -28,10 +28,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-# Generate data if running on a fresh deployment (e.g. Streamlit Community Cloud)
-from forexguard.dashboard.startup import ensure_data
-ensure_data()
-
 # ──────────────────────────────────────────────────────────────────────────────
 # Page config (must be first Streamlit call)
 # ──────────────────────────────────────────────────────────────────────────────
@@ -42,6 +38,10 @@ st.set_page_config(
     layout      = "wide",
     initial_sidebar_state = "expanded",
 )
+
+# Generate data if running on a fresh deployment (e.g. Streamlit Community Cloud)
+from forexguard.dashboard.startup import ensure_data
+ensure_data()
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Paths
