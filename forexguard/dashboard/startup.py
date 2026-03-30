@@ -8,7 +8,7 @@ _ROOT = Path(__file__).parent.parent.parent
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-_RAW_DIR = Path(__file__).parent.parent / "data" / "raw"
+_RAW_DIR = Path("/tmp/forexguard/raw")
 _FINAL_SCORES = _RAW_DIR / "final_scores.parquet"
 
 

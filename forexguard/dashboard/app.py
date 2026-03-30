@@ -47,8 +47,7 @@ ensure_data()
 # Paths
 # ──────────────────────────────────────────────────────────────────────────────
 
-BASE_DIR   = Path(__file__).parent.parent
-RAW_DIR    = BASE_DIR / "data" / "raw"
+RAW_DIR    = Path("/tmp/forexguard/raw")
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Data loading (cached)

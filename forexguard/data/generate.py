@@ -22,19 +22,8 @@ import numpy as np
 import pandas as pd
 from faker import Faker
 
-# ── Logging ──────────────────────────────────────────────────────────────────
-_stream_handler = logging.StreamHandler(sys.stdout)
-_stream_handler.stream.reconfigure(encoding="utf-8", errors="replace")
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[
-        _stream_handler,
-        logging.FileHandler(Path(__file__).parent / "generate.log", mode="w", encoding="utf-8"),
-    ],
-)
-log = logging.getLogger("forexguard.datagen")
+from forexguard.log_utils import setup_logger
+log = setup_logger("forexguard.datagen", "forexguard_generate.log", mode="w")
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 SEED = 42
@@ -51,8 +40,7 @@ EVENT_TYPES = ["login", "logout", "trade_open", "trade_close",
                "account_modify", "doc_upload"]
 COUNTRIES   = ["US", "GB", "DE", "FR", "AU", "SG", "IN", "AE", "JP", "CA"]
 
-OUT_DIR = Path(__file__).parent / "raw"
-OUT_DIR.mkdir(parents=True, exist_ok=True)
+OUT_DIR = Path("/tmp/forexguard/raw")
 
 fake = Faker()
 Faker.seed(SEED)
@@ -533,7 +521,8 @@ def build_dataset() -> tuple[pd.DataFrame, pd.DataFrame]:
 # Entry point
 # ─────────────────────────────────────────────────────────────────────────────
 
-def main():
+def generate_dataset():
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
     log.info("Starting data generation pipeline...")
     events_df, labels_df = build_dataset()
 
@@ -570,4 +559,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    generate_dataset()
