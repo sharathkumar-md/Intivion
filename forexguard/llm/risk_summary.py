@@ -17,21 +17,11 @@ get the raw explanation string from the ensemble.
 
 import logging
 import os
-import sys
-from pathlib import Path
 
 import pandas as pd
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[logging.StreamHandler(sys.stdout)],
-)
-_sh = logging.root.handlers[0]
-if hasattr(_sh, "stream"):
-    _sh.stream.reconfigure(encoding="utf-8", errors="replace")
-log = logging.getLogger("forexguard.llm.risk_summary")
+from forexguard.log_utils import setup_logger
+log = setup_logger("forexguard.llm.risk_summary", "forexguard_llm.log")
 
 # ──────────────────────────────────────────────────────────────────────────────
 # LLM backend selector

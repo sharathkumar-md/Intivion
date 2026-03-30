@@ -15,30 +15,12 @@ Alert tiers: CRITICAL >= 0.80, HIGH >= 0.60, MEDIUM >= 0.40, LOW below that.
 """
 
 import logging
-import sys
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler(
-            Path(__file__).parent.parent / "models.log",
-            mode="a",
-            encoding="utf-8",
-        ),
-    ],
-)
-_sh = logging.root.handlers[0]
-if hasattr(_sh, "stream"):
-    _sh.stream.reconfigure(encoding="utf-8", errors="replace")
-
-log = logging.getLogger("forexguard.models.ensemble")
+from forexguard.log_utils import setup_logger
+log = setup_logger("forexguard.models.ensemble", "forexguard_models.log")
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Thresholds

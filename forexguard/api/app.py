@@ -17,7 +17,6 @@ Five endpoints:
 
 import logging
 import pickle
-import sys
 from pathlib import Path
 from typing import Literal
 
@@ -29,20 +28,8 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Logging
-# ──────────────────────────────────────────────────────────────────────────────
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[logging.StreamHandler(sys.stdout)],
-)
-_sh = logging.root.handlers[0]
-if hasattr(_sh, "stream"):
-    _sh.stream.reconfigure(encoding="utf-8", errors="replace")
-log = logging.getLogger("forexguard.api")
+from forexguard.log_utils import setup_logger
+log = setup_logger("forexguard.api", "forexguard_api.log")
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Paths

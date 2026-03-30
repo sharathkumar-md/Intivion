@@ -14,7 +14,6 @@ endpoint can pull from for live scoring.
 
 import asyncio
 import logging
-import sys
 from datetime import datetime
 from pathlib import Path
 from typing import AsyncIterator
@@ -22,17 +21,8 @@ from typing import AsyncIterator
 import numpy as np
 import pandas as pd
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[logging.StreamHandler(sys.stdout)],
-)
-_sh = logging.root.handlers[0]
-if hasattr(_sh, "stream"):
-    _sh.stream.reconfigure(encoding="utf-8", errors="replace")
-
-log = logging.getLogger("forexguard.streaming.simulator")
+from forexguard.log_utils import setup_logger
+log = setup_logger("forexguard.streaming.simulator", "forexguard_streaming.log")
 
 
 # ──────────────────────────────────────────────────────────────────────────────

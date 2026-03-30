@@ -22,7 +22,6 @@ LSTM AE is more predictable and gets AUROC 0.9159 which is still strong.
 
 import logging
 import pickle
-import sys
 from pathlib import Path
 
 import numpy as np
@@ -31,24 +30,8 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler(
-            Path(__file__).parent.parent / "models.log",
-            mode="a",
-            encoding="utf-8",
-        ),
-    ],
-)
-_sh = logging.root.handlers[0]
-if hasattr(_sh, "stream"):
-    _sh.stream.reconfigure(encoding="utf-8", errors="replace")
-
-log = logging.getLogger("forexguard.models.lstm_autoencoder")
+from forexguard.log_utils import setup_logger
+log = setup_logger("forexguard.models.lstm_autoencoder", "forexguard_models.log")
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Constants
