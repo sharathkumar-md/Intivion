@@ -25,7 +25,12 @@ def ensure_data():
 
     # ── Step 1: Generate data ─────────────────────────────────────────────────
     with st.spinner("Generating synthetic dataset..."):
-        from forexguard.data.generate import generate_dataset
+        try:
+            import traceback as _tb
+            from forexguard.data.generate import generate_dataset
+        except Exception as _e:
+            st.error(f"Import failed: {_e}\n\n```\n{_tb.format_exc()}\n```")
+            st.stop()
         generate_dataset()
 
     events_df = pd.read_parquet(_RAW_DIR / "events.parquet")
