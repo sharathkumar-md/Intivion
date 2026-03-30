@@ -17,6 +17,11 @@ import os
 import sys
 from pathlib import Path
 
+# Make sure the repo root is on the path so imports work on Streamlit Cloud
+_ROOT = Path(__file__).parent.parent.parent
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
 import numpy as np
 import pandas as pd
 import plotly.express as px
