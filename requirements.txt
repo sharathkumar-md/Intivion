@@ -33,3 +33,4 @@ plotly>=5.20
 
 # ── Utilities ───────────────────────────────────────────────────────────────
 python-dotenv>=1.0          # load ANTHROPIC_API_KEY from .env
+faker>=24.0                 # synthetic data generation
