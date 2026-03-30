@@ -1,5 +1,7 @@
 # ForexGuard
 
+**Live demo: [forexguard.streamlit.app](https://forexguard.streamlit.app)**
+
 A real-time anomaly detection engine I built for detecting suspicious trader behaviour in a forex brokerage environment. The idea is to catch things like collusion rings, bonus abuse, latency arb, bot traders etc. — without any labels, purely unsupervised.
 
 ---
