@@ -1,0 +1,43 @@
+# ForexGuard .gitignore
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Pre-computed data — regenerate with run_pipeline.py
+forexguard/data/raw/
+forexguard/data/models/
+
+# MLflow run data
+forexguard/mlruns/
+
+# Logs
+*.log
+
+# Secrets / env files
+.env
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Others
+AI_ML Internship Assessment.pdf
+report.html
+report.md

@@ -1,0 +1,67 @@
+version: "3.9"
+
+services:
+
+  # ─── FastAPI anomaly detection engine ───────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: api
+    container_name: forexguard-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./forexguard/data:/app/forexguard/data:ro   # pre-computed scores
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - forexguard-net
+
+  # ─── Streamlit dashboard ────────────────────────────────────────────────────
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dashboard
+    container_name: forexguard-dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./forexguard/data:/app/forexguard/data:ro
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - forexguard-net
+
+  # ─── MLflow tracking server ─────────────────────────────────────────────────
+  mlflow:
+    image: python:3.11-slim
+    container_name: forexguard-mlflow
+    command: >
+      bash -c "pip install mlflow --quiet &&
+               mlflow server
+               --backend-store-uri sqlite:///mlruns/mlflow.db
+               --default-artifact-root /mlruns/artifacts
+               --host 0.0.0.0 --port 5000"
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow-data:/mlruns
+    networks:
+      - forexguard-net
+
+volumes:
+  mlflow-data:
+
+networks:
+  forexguard-net:
+    driver: bridge
